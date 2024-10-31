@@ -1,6 +1,7 @@
-const Movie = require('../model/moviesModel')
+const Movie = require('../model/moviesModel');
+const CustomError = require('../util/customError');
 
-exports.createMovie = async(req,res)=>{
+exports.createMovie = async(req,res,next)=>{
   try{
 
     const movie = await Movie.create(req.body)
@@ -11,15 +12,17 @@ exports.createMovie = async(req,res)=>{
         }
     });
 
-  } catch(err){
-    res.status(400).json({
-        status: "Fail",
-        msg: err.message
-    });
+  } catch(error){
+    // res.status(400).json({
+    //     status: "Fail",
+    //     msg: err.message
+    // });
+    const err = new CustomError(error.message,400);
+    next(err);
 
   }
 }
-exports.getMovies = async (req, res) => {
+exports.getMovies = async (req, res,next) => {
   try {
     let query = Movie.find();
 
@@ -60,18 +63,20 @@ exports.getMovies = async (req, res) => {
       }
     });
 
-  } catch (err) {
-    res.status(400).json({
-      status: "Fail",
-      msg: err.message
-    });
+  } catch (error) {
+    // res.status(400).json({
+    //   status: "Fail",
+    //   msg: err.message
+    // });
+    const err = new CustomError(error.message,400);
+    next(err);
   }
 };
 
 
 
 
-exports.getMovie = async(req,res)=>{
+exports.getMovie = async(req,res,next)=>{
   try{
  
   const {id} = req.params;
@@ -83,15 +88,16 @@ exports.getMovie = async(req,res)=>{
         }
     });
 
-  } catch(err){
-    res.status(400).json({
-        status: "Fail",
-        msg: err.message
-    });
-
+  } catch(error){
+    // res.status(400).json({
+    //     status: "Fail",
+    //     msg: err.message
+    // });
+    const err = new CustomError(error.message,400);
+    next(err);
   }
 }
-exports.updateMovie = async(req,res)=>{
+exports.updateMovie = async(req,res, next)=>{
   try{
   const {id} = req.params;
 
@@ -103,15 +109,16 @@ exports.updateMovie = async(req,res)=>{
         }
     });
 
-  } catch(err){
-    res.status(400).json({
-        status: "Fail",
-        msg: err.message
-    });
-
+  } catch(error){
+    // res.status(400).json({
+    //     status: "Fail",
+    //     msg: err.message
+    // });
+    const err = new CustomError(error.message,400);
+    next(err);
   }
 }
-exports.deleteMovie = async(req,res)=>{
+exports.deleteMovie = async(req,res,next)=>{
   try{
   const {id} = req.params;
 
@@ -121,12 +128,13 @@ exports.deleteMovie = async(req,res)=>{
         msg:"Movie Deleted successful"
     });
 
-  } catch(err){
-    res.status(400).json({
-        status: "Fail",
-        msg: err.message
-    });
-
+  } catch(error){
+    // res.status(400).json({
+    //     status: "Fail",
+    //     msg: err.message
+    // });
+    const err = new CustomError(error.message,400);
+    next(err);
   }
 }
 
